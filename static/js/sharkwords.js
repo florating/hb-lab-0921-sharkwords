@@ -19,13 +19,17 @@ let numWrong = 0;
 // Loop over the chars in `word` and create divs.
 //
 const createDivsForChars = (word) => {
-  // Replace this with your code
+  for (char of word) {
+      $("#word-container").append(`<div class="letter-box ${char}"></div>`);
+  }
 };
 
 // Loop over each letter in `ALPHABET` and generate buttons.
 //
 const generateLetterButtons = () => {
-  // Replace this with your code
+  for (char of ALPHABET) {
+      $("#letter-buttons").append(`<button class="letter">${char}</button>`);
+  }
 };
 
 // Set the `disabled` property of `buttonEl` to `true.
@@ -33,19 +37,25 @@ const generateLetterButtons = () => {
 // `buttonEl` is an `HTMLElement` object.
 //
 const disableLetterButton = (buttonEl) => {
-  // Replace this with your code
+  $(buttonEl).attr('disabled', 'true');
 };
 
 // Return `true` if `letter` is in the word.
 //
 const isLetterInWord = (letter) => {
-  // Replace this with your code
+  const buttons = $('div.letter-box');
+  for (const b of buttons) {
+      if ($(b).hasClass(letter)) {
+          return true;
+      }
+  }
+  return false;
 };
 
 // Called when `letter` is in word. Update contents of divs with `letter`.
 //
 const handleCorrectGuess = (letter) => {
-  // Replace this with your code
+  $(`div.${letter}`).text(letter);
 };
 
 // Called when `letter` is not in word.
@@ -54,7 +64,15 @@ const handleCorrectGuess = (letter) => {
 // message. Otherwise, increment `numWrong` and update the shark image.
 //
 const handleWrongGuess = () => {
-  // Replace this with your code
+  numWrong += 1;
+  $("#shark-img").html(`<img src="/static/images/guess${numWrong}.png"/>`);
+  if (numWrong === 5) {
+    const buttons = $("button.letter");
+    for (const b of buttons) {
+        disableLetterButton(b);
+    }
+    $("#play-again").show();
+  }
 };
 
 //  Reset game state. Called before restarting the game.
